@@ -3,65 +3,66 @@
 # dependencies = ["matplotlib"]
 # ///
 
-"""
-Read the file in data/, make one picture, save it to out/.
-
-    uv run plot.py
-
-Three parts, and you will replace all three: rows() reads the file the way *your*
-file needs reading, the loop in main() picks the numbers out of it, and the plot at
-the bottom is the transformation you chose. Print before you plot.
-"""
-
 import csv
 from pathlib import Path
 
 import matplotlib.pyplot as plt
 
-FILE = "hko-daily-mean-temperature-2026.csv"   # CHANGE ME: the same name as in fetch.py
-PICTURE = "plot.png"                           # what goes into out/, and into the README
 
 HERE = Path(__file__).parent
-DATA = HERE / "data" / FILE
+DATA_FILE = HERE / "data" / "hko-daily-rainfall-2025.csv"
 OUT = HERE / "out"
+OUT_FILE = OUT / "rainfall-first-plot.png"
 
 
-def rows(path):
-    """The file as a list of lists, one per line. The Observatory puts three lines
-    of titles above the table and a legend below it, so keep only the lines that
-    start with a year."""
-    kept = []
-    with path.open(encoding="utf-8-sig", newline="") as handle:
-        for line in csv.reader(handle):
-            if line and line[0].isdigit():
-                kept.append(line)
-    return kept
+def rainfall_value(text):
+    """Turn the rainfall text into a number."""
+    if text == "Trace":
+        return 0.0
+    return float(text)
 
 
-def main():
-    table = rows(DATA)
-    print(f"{DATA.name}: {len(table)} rows. The first one: {table[0]}")
+def load_rainfall():
+    values = []
 
-    days, values = [], []
-    for i, (year, month, day, value, quality) in enumerate(table):   # the loop over the numbers
-        if value == "***":                   # the Observatory's word for "missing"
-            continue
-        days.append(i + 1)
-        values.append(float(value))          # it arrived as text; make it a number
-    print(f"{len(values)} values, from {min(values)} to {max(values)}")
+    with DATA_FILE.open(encoding="utf-8-sig", newline="") as file:
+        reader = csv.reader(file)
 
-    fig, ax = plt.subplots(figsize=(10, 4))
-    ax.plot(days, values, color="#d6591d", linewidth=1.5)
-    ax.set_xlabel("day of 2026")
-    ax.set_ylabel("daily mean temperature, °C")
-    ax.set_title("Hong Kong Observatory, 2026 so far")
-    fig.tight_layout()
+        # Skip the two title rows and the column headings.
+        next(reader)
+        next(reader)
+        next(reader)
 
-    OUT.mkdir(exist_ok=True)
-    fig.savefig(OUT / PICTURE, dpi=150)
-    print(f"saved out/{PICTURE}")
-    plt.show()
+        for line_number, row in enumerate(reader, start=4):
+
+            # Some lines in the published CSV are not daily data.
+            if len(row) < 4:
+                print(f"Skipping line {line_number}: {row}")
+                continue
+
+            rainfall = rainfall_value(row[3].strip())
+            values.append(rainfall)
+
+    return values
 
 
-if __name__ == "__main__":
-    main()
+rainfall = load_rainfall()
+
+print(f"{len(rainfall)} daily rainfall values")
+print(f"Maximum rainfall: {max(rainfall)} mm")
+print(f"Total rainfall: {sum(rainfall):.1f} mm")
+
+days = range(1, len(rainfall) + 1)
+
+plt.figure(figsize=(12, 5))
+plt.plot(days, rainfall)
+
+plt.title("Daily Rainfall at the Hong Kong Observatory — 2025")
+plt.xlabel("Day of the year")
+plt.ylabel("Daily rainfall (mm)")
+
+OUT.mkdir(exist_ok=True)
+plt.savefig(OUT_FILE, dpi=150, bbox_inches="tight")
+
+print(f"saved {OUT_FILE}")
+plt.show()
