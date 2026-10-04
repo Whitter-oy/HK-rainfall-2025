@@ -1,34 +1,51 @@
-# The phenomenon
+# Hong Kong Rainfall Monitor · 2025
 
-<!-- This is the SD5913 assignment 2 template. Everything in this file is yours to
-replace, and the check counts words: comments like this one are not words, so
-delete each one as you write. Start with the heading: name the phenomenon.
-
-Then, in this order, at least 150 words in total.
-
-New to folders, paths, or the files here whose names start with a dot? Read
-https://github.com/sd5913/pfad/blob/2026/reference/files.md first. Ten minutes. -->
-
-![what the picture is](out/plot.png)
+![Hong Kong Rainfall Monitor interface](assets/rainfall-monitor-ui.png)
 
 ## The phenomenon
 
-<!-- What goes up and down, and why you looked at it. -->
+This project studies **daily rainfall in Hong Kong in 2025**, using official data from the Hong Kong Observatory. Rainfall is a natural phenomenon that changes across time: some days are completely dry, while others bring intense storms and extremely high precipitation. Instead of showing rainfall only as a simple static chart, this project explores how it can be turned into a more visual and interactive experience.
 
-## The source
+The final outcome is an **interactive rainfall monitor** that lets the viewer inspect the year by month and by day. The interface combines monthly totals, daily values, animated rainfall effects, and a stylised map of Hong Kong. My aim was to make the data feel more alive and atmospheric, while still remaining readable and grounded in real measurements.
 
-<!-- A link to the page or endpoint the file came from, and one line on what is in
-the file: how many rows, what a row means, what the units are. -->
+## Source
+
+The rainfall data comes from the **Hong Kong Observatory (HKO)** open data service.  
+It uses daily total rainfall records from the Hong Kong Observatory station for the year 2025.
+
+- Source organisation: **Hong Kong Observatory**
+- Dataset: **Daily Total Rainfall (mm) at the Hong Kong Observatory**
+- District boundary reference: **Hong Kong administrative district boundary GeoJSON**
+
+## The picture
+
+The main visualisation is an interactive web interface called **Hong Kong Rainfall Monitor · 2025**.
+
+It shows:
+- the selected month,
+- daily rainfall values inside that month,
+- the wettest day and peak rainfall,
+- the number of rainy days,
+- annual monthly totals,
+- and a stylised Hong Kong map used as geographic context.
+
+The animated rain layer changes with the selected data, so wetter days appear more active and intense. The month can be changed through the dropdown, navigation buttons, or the monthly timeline.
 
 ## What the picture shows
 
-<!-- Two or three sentences. Including what it hides: every transformation throws
-something away, and naming what yours threw away is the easiest way to sound like
-you know what you did. -->
+This work shows the **temporal rhythm of rainfall** across the year. It makes clear that rainfall in Hong Kong is not evenly distributed: summer months are much wetter, while winter months are relatively dry. The visualisation also highlights extremes, such as peak rainfall days, and helps the audience compare monthly totals quickly.
 
-## Run it
+Because the page is interactive, the audience can move between months and days instead of only looking at one fixed chart. This makes the rainfall pattern easier to explore and more engaging than a single static plot.
 
-```
+## What the picture hides
+
+Although the design uses a Hong Kong district map, the rainfall data itself comes from **one observation station only**: the Hong Kong Observatory station. This means the project does **not** represent district-level rainfall differences. The map is used mainly as visual and geographic context.
+
+The visualisation also simplifies rainfall into daily totals. It does not show hourly variation, storm duration, wind, cloud movement, or uncertainty. In other words, it communicates seasonal pattern, intensity, and comparison well, but it hides more detailed meteorological complexity.
+
+## How to run
+
+### 1. Fetch the data
+
+```bash
 uv run fetch.py
-uv run plot.py
-```
