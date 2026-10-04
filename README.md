@@ -1,51 +1,49 @@
 # Hong Kong Rainfall Monitor · 2025
 
+**Interactive visualization of Hong Kong daily rainfall in 2025**
+
+**Live website:** https://whitter-oy.github.io/HK-rainfall-2025/
+
+**Data source:** https://data.weather.gov.hk/weatherAPI/cis/csvfile/HKO/2025/daily_HKO_RF_2025.csv
+
 ![Hong Kong Rainfall Monitor interface](assets/rainfall-monitor-ui.png)
 
 ## The phenomenon
 
-This project studies **daily rainfall in Hong Kong in 2025**, using official data from the Hong Kong Observatory. Rainfall is a natural phenomenon that changes across time: some days are completely dry, while others bring intense storms and extremely high precipitation. Instead of showing rainfall only as a simple static chart, this project explores how it can be turned into a more visual and interactive experience.
+This project explores daily rainfall in Hong Kong throughout 2025. Rainfall is a natural phenomenon that changes significantly across seasons and individual days. Some periods are almost completely dry, while summer months can contain sudden and extremely intense rainfall.
 
-The final outcome is an **interactive rainfall monitor** that lets the viewer inspect the year by month and by day. The interface combines monthly totals, daily values, animated rainfall effects, and a stylised map of Hong Kong. My aim was to make the data feel more alive and atmospheric, while still remaining readable and grounded in real measurements.
+I chose rainfall because the difference between ordinary days and extreme weather can be difficult to understand from a table of numbers alone. My goal was to transform the data into an interactive visual experience where the viewer can explore both the yearly pattern and individual rainfall events.
 
-## Source
+## The source
 
-The rainfall data comes from the **Hong Kong Observatory (HKO)** open data service.  
-It uses daily total rainfall records from the Hong Kong Observatory station for the year 2025.
+The rainfall data comes from the **Hong Kong Observatory (HKO)**.
 
-- Source organisation: **Hong Kong Observatory**
-- Dataset: **Daily Total Rainfall (mm) at the Hong Kong Observatory**
-- District boundary reference: **Hong Kong administrative district boundary GeoJSON**
+The committed CSV contains **365 daily records from 2025**. Each row represents one day and includes the year, month, day, daily total rainfall and data completeness. Rainfall is measured in **millimetres (mm)**.
 
-## The picture
+The project also uses Hong Kong administrative district boundary data to provide geographic context for the interface. The district boundaries do not contain rainfall measurements.
 
-The main visualisation is an interactive web interface called **Hong Kong Rainfall Monitor · 2025**.
+## The final visualization
 
-It shows:
-- the selected month,
-- daily rainfall values inside that month,
-- the wettest day and peak rainfall,
-- the number of rainy days,
-- annual monthly totals,
-- and a stylised Hong Kong map used as geographic context.
+The final outcome is an interactive website called **Hong Kong Rainfall Monitor · 2025**.
 
-The animated rain layer changes with the selected data, so wetter days appear more active and intense. The month can be changed through the dropdown, navigation buttons, or the monthly timeline.
+The viewer can select a month and a specific day to inspect the rainfall recorded at the Hong Kong Observatory. The interface combines a Hong Kong district map, daily rainfall values, monthly rainfall totals, rainy-day counts, the wettest day, a daily bar chart and an annual rainfall timeline.
 
-## What the picture shows
+The rain animation is also driven by the real data. A day with heavier rainfall produces a stronger animated rain field and a more active visual response around the observation station. The Play control allows the viewer to move through the rainfall records over time.
 
-This work shows the **temporal rhythm of rainfall** across the year. It makes clear that rainfall in Hong Kong is not evenly distributed: summer months are much wetter, while winter months are relatively dry. The visualisation also highlights extremes, such as peak rainfall days, and helps the audience compare monthly totals quickly.
+## What the visualization shows
 
-Because the page is interactive, the audience can move between months and days instead of only looking at one fixed chart. This makes the rainfall pattern easier to explore and more engaging than a single static plot.
+The visualization reveals the strong seasonal rhythm of rainfall in Hong Kong. The monthly timeline makes the difference between the relatively dry winter months and the much wetter summer period immediately visible.
 
-## What the picture hides
+Selecting individual days also reveals extreme events that can disappear inside a monthly total. For example, a single day with very heavy rainfall produces a noticeably different visual state from an ordinary or dry day.
 
-Although the design uses a Hong Kong district map, the rainfall data itself comes from **one observation station only**: the Hong Kong Observatory station. This means the project does **not** represent district-level rainfall differences. The map is used mainly as visual and geographic context.
+## What the visualization hides
 
-The visualisation also simplifies rainfall into daily totals. It does not show hourly variation, storm duration, wind, cloud movement, or uncertainty. In other words, it communicates seasonal pattern, intensity, and comparison well, but it hides more detailed meteorological complexity.
+The rainfall measurements come from the **Hong Kong Observatory station**, not from all 18 districts. Therefore, the district map is used only as geographic context and does not imply different rainfall levels in different districts.
+
+The project also reduces rainfall to daily totals. It does not show hourly variation, storm duration, wind, cloud movement or other meteorological variables. The visualization therefore focuses on rainfall intensity and change over time rather than providing a complete weather model.
 
 ## How to run
 
-### 1. Fetch the data
-
 ```bash
 uv run fetch.py
+uv run plot.py
