@@ -2,7 +2,7 @@
 
 **Interactive visualization of Hong Kong daily rainfall in 2025**
 
-**Live website:** https://whitter-oy.github.io/HK-rainfall-2025/
+**Direct access to visualization:** https://whitter-oy.github.io/HK-rainfall-2025/
 
 **Data source:** https://data.weather.gov.hk/weatherAPI/cis/csvfile/HKO/2025/daily_HKO_RF_2025.csv
 
