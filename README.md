@@ -2,7 +2,7 @@
 
 **Interactive visualization of Hong Kong daily rainfall in 2025**
 
-**Direct access to visualization:** https://whitter-oy.github.io/HK-rainfall-2025/
+[Open the interactive demo](https://whitter-oy.github.io/HK-rainfall-2025/) · [Design and development process](PROCESS.md)
 
 **Data source:** https://data.weather.gov.hk/weatherAPI/cis/csvfile/HKO/2025/daily_HKO_RF_2025.csv
 
@@ -42,8 +42,29 @@ The rainfall measurements come from the **Hong Kong Observatory station**, not f
 
 The project also reduces rainfall to daily totals. It does not show hourly variation, storm duration, wind, cloud movement or other meteorological variables. The visualization therefore focuses on rainfall intensity and change over time rather than providing a complete weather model.
 
+## Technology and implementation
+
+Python loads the committed CSV and district boundary data, generates static plots with Matplotlib, and writes the interactive HTML/CSS/JavaScript site to `site/index.html`. GitHub Actions builds and publishes the site to GitHub Pages.
+
 ## How to run
 
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/), then:
+
 ```bash
-uv run fetch.py
+git clone https://github.com/Whitter-oy/HK-rainfall-2025.git
+cd HK-rainfall-2025
 uv run plot.py
+python3 -m http.server 8000 --directory site
+```
+
+Open [http://localhost:8000](http://localhost:8000) in your browser. On systems where Python is named `python`, use that command instead of `python3`.
+
+The committed data is sufficient to build the visualization. To download either source file if it is missing, run `uv run fetch.py` before building. That script keeps an existing file rather than overwriting it. Initial dependency installation and any data download need an internet connection.
+
+## Data and interpretation
+
+- [Hong Kong Observatory daily rainfall CSV](https://data.weather.gov.hk/weatherAPI/cis/csvfile/HKO/2025/daily_HKO_RF_2025.csv).
+- [Hong Kong administrative district boundaries](https://www.had.gov.hk/psi/hong-kong-administrative-boundaries/hksar_18_district_boundary.json).
+- Rainfall values describe one observation station. The district map provides context and is not a district-level rainfall comparison.
+
+This is an educational visualization of historical data, rather than a live weather warning service.
